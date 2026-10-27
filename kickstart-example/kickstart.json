@@ -1,0 +1,22 @@
+{
+  "variables": {
+    "apiKey": "#{ENV.FUSIONAUTH_API_KEY}",
+    "applicationId": "#{UUID()}"
+  },
+  "apiKeys": [
+    {
+      "key": "#{apiKey}"
+    }
+  ],
+  "requests": [
+    {
+      "method": "PUT",
+      "url": "/api/application/#{applicationId}",
+      "body": {
+        "application": {
+          "name": "Kickstart Demo App"
+        }
+      }
+    }
+  ]
+}

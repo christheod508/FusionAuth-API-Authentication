@@ -1,0 +1,69 @@
+# Safe sample for a fresh FusionAuth Kickstart instance.
+# Copy this file and kickstart-example/ into a clean project before running.
+services:
+  db:
+    image: postgres:16.0-bookworm
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  search:
+    image: opensearchproject/opensearch:2.11.0
+    environment:
+      OPENSEARCH_JAVA_OPTS: ${OPENSEARCH_JAVA_OPTS}
+      cluster.name: fusionauth-kickstart
+      node.name: search
+      discovery.type: single-node
+      plugins.security.disabled: "true"
+      bootstrap.memory_lock: "true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://localhost:9200/ -o /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 80
+    volumes:
+      - search_data:/usr/share/opensearch/data
+
+  fusionauth:
+    image: fusionauth/fusionauth-app:1.69.4
+    depends_on:
+      db:
+        condition: service_healthy
+      search:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/fusionauth
+      DATABASE_USERNAME: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_ROOT_USERNAME: ${POSTGRES_USER}
+      DATABASE_ROOT_PASSWORD: ${POSTGRES_PASSWORD}
+      SEARCH_SERVERS: http://search:9200
+      SEARCH_TYPE: elasticsearch
+      FUSIONAUTH_APP_RUNTIME_MODE: development
+      FUSIONAUTH_APP_MEMORY: 512M
+      FUSIONAUTH_APP_KICKSTART_FILE: /usr/local/fusionauth/kickstart/kickstart.json
+      FUSIONAUTH_APP_URL: http://localhost:19011
+      FUSIONAUTH_API_KEY: ${FUSIONAUTH_API_KEY}
+    ports:
+      - "19011:9011"
+    volumes:
+      - ./kickstart-example:/usr/local/fusionauth/kickstart:ro
+
+volumes:
+  db_data:
+  search_data:

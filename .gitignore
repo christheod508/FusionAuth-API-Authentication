@@ -31,3 +31,4 @@ tmp/
 
 /login.json
 /kickstart/kickstart.json
+/docker-compose.kickstart.yml

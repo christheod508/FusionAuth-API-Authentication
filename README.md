@@ -2,7 +2,7 @@
 
 Εργαστηριακή αξιολόγηση του FusionAuth ως self-hosted πλατφόρμας Identity and Access Management. Το project καταγράφει ρυθμίσεις και δοκιμές για χρήστες και ομάδες, RBAC, SSO, MFA, OIDC/PKCE, πολιτικές πρόσβασης, audit logs, περιορισμένα API keys και Kickstart. Περιλαμβάνει επίσης τα ευρήματα και τους περιορισμούς της αξιολόγησης, με βάση το τοπικό περιβάλλον δοκιμών.
 
-> **Κατάσταση δημοσίευσης:** Ο παρών φάκελος περιέχει κυρίως αναφορά, σημειώσεις και αποδεικτικό υλικό. Δεν περιέχει ακόμη το κύριο `docker-compose.yml` ούτε τον κώδικα της εφαρμογής case study. Επομένως δεν είναι ακόμη πλήρως αναπαραγώγιμο project με απλό clone και εκκίνηση.
+> **Κατάσταση:** Το repository περιέχει το βασικό Docker Compose και ασφαλή παραδείγματα Kickstart. Δεν περιέχει ακόμη την OIDC ενσωμάτωση και τις role-protected σελίδες της εφαρμογής case study, ούτε τη δημόσια ανωνυμοποιημένη αναφορά.
 
 ## Περιβάλλον εργαστηρίου
 
@@ -36,11 +36,11 @@
 ```text
 .
 ├── README.md
-├── docker-compose.yml       # sanitized, χωρίς πραγματικά secrets
-├── .env.example             # μόνο placeholders
-├── kickstart/
-│   └── kickstart.json       # sanitized demo configuration
-├── app/                     # case study, όταν ολοκληρωθεί η OIDC ενσωμάτωση
+├── docker-compose.yml                   # βασικό FusionAuth stack, τιμές από .env
+├── docker-compose.kickstart.example.yml # απομονωμένο Kickstart demo stack
+├── .env.example                         # placeholders, ποτέ πραγματικά secrets
+├── kickstart-example/kickstart.json     # παράδειγμα bootstrap
+├── multi-container-app/                 # αρχικό Todo demo, χωρίς OIDC σύνδεση
 └── docs/
     ├── report/              # δημόσιο, ανωνυμοποιημένο PDF
     └── evidence/             # επιλεγμένα redacted screenshots
@@ -50,15 +50,22 @@
 
 ## Εκκίνηση
 
-Οι παρακάτω εντολές ισχύουν αφού προστεθούν στο repository το καθαρισμένο Compose αρχείο και το `.env.example`:
+Αν δεν έχεις ήδη τοπικό `.env`, ξεκίνα από το παράδειγμα και βάλε δικές σου τιμές:
 
 ```bash
 cp .env.example .env
-docker compose up -d
-docker compose ps
+# Επεξεργάσου το .env και αντικατάστησε όλα τα replace-* placeholders.
+docker-compose up -d
+docker-compose ps
 ```
 
-Μην ανεβάσεις ποτέ το πραγματικό `.env`. Για δοκιμές/τοπική ανάπτυξη, χρησιμοποίησε ξεχωριστά credentials και άλλαξε τα προεπιλεγμένα passwords πριν από οποιαδήποτε έκθεση του service στο δίκτυο.
+Για το ξεχωριστό Kickstart demo stack:
+
+```bash
+docker-compose -f docker-compose.kickstart.example.yml up -d
+```
+
+Το Kickstart sample χρειάζεται μοναδικό `FUSIONAUTH_API_KEY` στο τοπικό `.env` και εκτελείται μόνο σε καινούργιο/μη αρχικοποιημένο FusionAuth instance. Μην ανεβάσεις ποτέ το πραγματικό `.env` ή το τοπικό `kickstart/kickstart.json`. Για δοκιμές χρησιμοποίησε ξεχωριστά credentials και μην εκθέτεις το development stack σε δημόσιο δίκτυο.
 
 ## Υλικό αναφοράς
 

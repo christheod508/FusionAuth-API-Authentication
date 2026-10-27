@@ -28,3 +28,6 @@ tmp/
 /Αναφορά/
 
 # Keep sanitized public material in docs/report and docs/evidence instead
+
+/login.json
+/kickstart/kickstart.json

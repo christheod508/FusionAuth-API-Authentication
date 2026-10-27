@@ -11,7 +11,7 @@
 - Mailpit για δοκιμές email.
 - Ξεχωριστό demo Todo με Node.js/Express, EJS και MongoDB.
 
-Το Todo demo εκκινήθηκε επιτυχώς, αλλά δεν τεκμηριώνεται σύνδεσή του με FusionAuth μέσω OIDC. Δεν παρουσιάζεται ως ολοκληρωμένη εφαρμογή case study.
+Το Todo demo εκκινήθηκε επιτυχώς, αλλά δεν τεκμηριώνεται σύνδεσή του με FusionAuth μέσω OIDC. Είναι ξεχωριστός κλώνος του [Docker multi-container-app](https://github.com/docker/multi-container-app) και δεν περιλαμβάνεται σε αυτό το repository.
 
 ## Αποτελέσματα και όρια
 
@@ -40,7 +40,6 @@
 ├── docker-compose.kickstart.example.yml # απομονωμένο Kickstart demo stack
 ├── .env.example                         # placeholders, ποτέ πραγματικά secrets
 ├── kickstart-example/kickstart.json     # παράδειγμα bootstrap
-├── multi-container-app/                 # αρχικό Todo demo, χωρίς OIDC σύνδεση
 └── docs/
     ├── report/              # δημόσιο, ανωνυμοποιημένο PDF
     └── evidence/             # επιλεγμένα redacted screenshots

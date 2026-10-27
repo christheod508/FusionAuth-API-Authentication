@@ -1,0 +1,30 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Runtime and generated content
+node_modules/
+**/node_modules/
+tmp/
+**/.DS_Store
+
+# Raw project notes, exports, and screenshots must be reviewed/redacted first
+/FusionAuth.txt
+/Phase-2.txt
+/Users.txt
+/jwt.txt
+/kickstart.txt
+/lamda_config.txt
+/save api key.txt
+/second api key.txt
+/check-jwt.ps1
+/*.zip
+/Screenshot Fusion/
+/Πειργραφη Θέματος.png
+/Αναφορά/
+
+# Keep sanitized public material in docs/report and docs/evidence instead
